@@ -468,13 +468,13 @@ class KeyboardDriver : public HIDDeviceDriver {
         last_buttons = buttons;
       }
 
-      if (x_delta != 0 || y_delta != 0) {
+      /*if (x_delta != 0 || y_delta != 0) {
         if (x_delta != 0 && parent_->get_mouse_x_sensor())
           parent_->get_mouse_x_sensor()->publish_state(x_delta / 3.0f);
         if (y_delta != 0 && parent_->get_mouse_y_sensor())
           parent_->get_mouse_y_sensor()->publish_state(y_delta / 10.0f);
         ESP_LOGI("KeyboardDriver", "Touchpad: dx=%d dy=%d", x_delta, y_delta);
-      }
+        }*/
       return;
     }
 
@@ -524,8 +524,8 @@ class KeyboardDriver : public HIDDeviceDriver {
         int8_t y_delta = (int8_t) byte2;
         if (x_delta != 0 || y_delta != 0) {
           ESP_LOGI("KeyboardDriver", "Touchpad: Movement delta X=%d Y=%d", x_delta, y_delta);
-          if (parent_->get_mouse_x_sensor()) parent_->get_mouse_x_sensor()->publish_state(x_delta);
-          if (parent_->get_mouse_y_sensor()) parent_->get_mouse_y_sensor()->publish_state(y_delta);
+          //if (parent_->get_mouse_x_sensor()) parent_->get_mouse_x_sensor()->publish_state(x_delta);
+          //if (parent_->get_mouse_y_sensor()) parent_->get_mouse_y_sensor()->publish_state(y_delta);
         }
         return;
       }
