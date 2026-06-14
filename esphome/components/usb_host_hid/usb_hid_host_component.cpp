@@ -27,7 +27,7 @@ void USBHidHost::setup() {
   usb_host_config_t config{};
 
   if (usb_host_install(&config) != ESP_OK) {
-    this->status_set_error("usb_host_install failed");
+    this->status_set_error(LOG_STR("usb_host_install failed"));
     this->mark_failed();
     return;
   }
@@ -42,7 +42,7 @@ void USBHidHost::setup() {
   };
   if (hid_host_install(&hid_host_driver_config) != ESP_OK) {
     ESP_LOGW(TAG, "hid_host_install err");
-    this->status_set_error("hid_host_install failed");
+    this->status_set_error(LOG_STR("hid_host_install failed"));
     this->mark_failed();
     return;
   }

@@ -61,7 +61,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_KEYBOARDS): cv.ensure_list(usb_hid_device_schema()),
         }
     ),
-    cv.only_with_esp_idf,
+    cv.only_with_framework(["esp-idf"]),
     only_on_variant(supported=[VARIANT_ESP32S2, VARIANT_ESP32S3, VARIANT_ESP32P4]),
 )
 

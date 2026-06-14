@@ -1,0 +1,102 @@
+esphome:
+  name: shack-lights
+  friendly_name: Shack-lights
+  platformio_options:
+    build_flags: "-DBOARD_HAS_PSRAM"
+    board_build.arduino.memory_type: qio_opi
+
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf
+    #advanced:
+   #   execute_from_psram: true
+
+  flash_size: 16MB
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "EilDp3cwFiCQF0MzyY2Ik+LXoHm7u7Nf+wmUmO/G+Yc="
+
+ota:
+  - platform: esphome
+    password: "22500c0fd88adf89b5dc310db538a32d"
+
+wifi:
+  ssid: Home
+  password: WeHaveGie9feeT
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Shack-Lights Fallback Hotspot"
+    password: "ndO9VYZK9bf2"
+
+captive_portal:
+
+#external_components:
+  # use rtttl and dfplayer from ESPHome's dev branch in GitHub
+#  - source:
+#      type: git
+#      url: https://github.com/cschuhen/esphome
+#      ref: usb_hid
+#    components: [ const, usb_host, usb_host_hid ]
+#    refresh: 100s
+
+
+#external_components:
+#  - source:
+#    type: git
+#    url: https://github.com/cschuhen/esphome
+#    ref: usb_hid
+#  #- source: github://pr#9680
+#    components: [conf, usb_host, usb_host_hid]
+#    refresh: 1h
+
+
+
+usb_host_hid:
+  enable_hubs: true
+  keyboards:
+    - id: kbd
+      check_class: false
+      # AIX Appliance
+      vid: 0x1189
+      pid: 0x8890
+      #Logitech
+      #vid: 0x046D
+      #pid: 0xC33C
+      # Mini-server
+      #vid: 0x04D9
+      #pid: 0x1203
+      # New mini keyboard
+      #vid: 0x0003
+      #pid: 0x1A2C
+
+
+key_collector:
+  - id: kbd_reader
+    source_id: kbd
+    #end_keys: "\r"
+    end_key_required: false
+    timeout: 1s
+    min_length: 1
+    max_length: 4
+    on_progress:
+      - logger.log:
+          format: "input progress: '%s', started by '%c'"
+          args: [ 'x.c_str()', "(start == 0 ? '~' : start)" ]
+    on_result:
+      - logger.log:
+          format: "input result: '%s', started by '%c', ended by '%c'"
+          args: [ 'x.c_str()', "(start == 0 ? '~' : start)", "(end == 0 ? '~' : end)" ]
+    on_timeout:
+      - logger.log:
+          format: "input timeout: '%s', started by '%c'"
+          args: [ 'x.c_str()', "(start == 0 ? '~' : start)" ]
+
+
